@@ -14,6 +14,7 @@ external API and a local Petstore-style resource.
 - **Validation:** Zod schemas for all request/response bodies
 - **Date handling:** `date-fns` (never use `moment.js` — it is deprecated and bloats the bundle)
 - **Caching:** `node-cache` for in-memory caching of external API responses
+- **API Documentation:** `swagger-jsdoc` (spec generation from JSDoc) + `swagger-ui-express` (Swagger UI at `/api/docs`)
 - **Testing:** Vitest
 - **Linting:** ESLint with `@typescript-eslint`
 
@@ -79,6 +80,25 @@ interface ApiError {
 - Schemas: `{resource}.schema.ts`
 - Types: `{resource}.types.ts`
 - Tests: `{resource}.test.ts` (colocated next to the source file)
+
+## OpenAPI 3.0 Documentation
+
+This project uses **OpenAPI 3.0** to document every endpoint.
+
+- The spec is generated automatically by `swagger-jsdoc` from `@openapi` JSDoc blocks in route and controller files.
+- Swagger UI is served at `GET /api/docs`; the raw JSON spec is at `GET /api/docs.json`.
+- Shared schemas and reusable error responses live in `src/config/openapi.ts`.
+
+**Every new or modified endpoint MUST include an `@openapi` JSDoc block.** See `.github/instructions/openapi.instructions.md` for the full template and checklist.
+
+### File naming
+- OpenAPI config / shared components: `src/config/openapi.ts`
+
+### Endpoint documentation checklist
+1. Add `@openapi` block above the route or controller handler with tags, summary, all parameters, request body (if any), and all response codes.
+2. Add any new response body shape to `src/config/openapi.ts` under `components.schemas`.
+3. Always reference the shared error responses (`$ref: '#/components/responses/BadRequest'`, `TooManyRequests`, `InternalServerError`) — never inline them.
+4. Verify the new operation appears in Swagger UI at `http://localhost:3000/api/docs` before considering the work done.
 
 ## External API Integration
 

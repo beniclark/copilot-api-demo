@@ -54,7 +54,15 @@ For each new endpoint or resource, create files in this order:
 - Apply rate-limiting middleware.
 - Register the route in `src/routes/index.ts`.
 
-### Step 7 — Tests
+### Step 7 — OpenAPI Documentation
+- Add an `@openapi` JSDoc block directly above **every** route handler or controller method.
+  - Include `tags`, `summary`, all `parameters` (path, query), `requestBody` (if applicable), and every response code (`200`, `400`, `429`, `500`).
+  - Reference shared error responses using `$ref`: `'#/components/responses/BadRequest'`, `TooManyRequests`, `InternalServerError` — never inline them.
+- If the endpoint returns a new response shape, add a named schema entry to `src/config/openapi.ts` under `components.schemas` and reference it with `$ref`.
+- See `.github/instructions/openapi.instructions.md` for the full `@openapi` template and tag conventions.
+- After wiring up the route, run the dev server and confirm the new operation appears correctly at `http://localhost:3000/api/docs`.
+
+### Step 8 — Tests
 - Create `src/services/{resource}.service.test.ts` and `src/controllers/{resource}.controller.test.ts`.
 - Mock repository dependencies.
 - Cover happy path, validation errors, and upstream failures.
@@ -69,6 +77,9 @@ For each new endpoint or resource, create files in this order:
 - **Always** follow the three-layer architecture (controller → service → repository).
 - **Always** use Zod for validation — never trust raw input.
 - **Always** use the `ApiResponse<T>` and `ApiError` response shapes.
+- **Always** add `@openapi` JSDoc blocks for every endpoint — the spec is auto-generated from these comments.
+- **Always** register new response body schemas in `src/config/openapi.ts` and use `$ref` instead of inlining.
 - **Never** put business logic in controllers.
 - **Never** make HTTP/DB calls outside of repositories.
 - **Never** use `any` — use `unknown` and narrow explicitly.
+- **Never** consider an endpoint complete until its operation appears in Swagger UI at `/api/docs`.

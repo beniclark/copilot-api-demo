@@ -10,6 +10,7 @@ npm run dev        # starts the dev server with hot reload
 ```
 
 Visit `http://localhost:3000/api/health` to confirm it's running.
+Visit `http://localhost:3000/api/docs` to explore the OpenAPI documentation.
 
 ## Project Structure
 
@@ -20,6 +21,7 @@ Visit `http://localhost:3000/api/health` to confirm it's running.
 │   │   ├── controllers.instructions.md      # Rules for controller files
 │   │   ├── services.instructions.md         # Rules for service files
 │   │   ├── schemas.instructions.md          # Rules for Zod schemas
+│   │   ├── openapi.instructions.md          # Rules & template for OpenAPI 3.0 docs
 │   │   └── tests.instructions.md            # Rules for test files
 │   └── agents/
 │       ├── api-planner.agent.md             # Read-only planning agent
@@ -29,7 +31,9 @@ Visit `http://localhost:3000/api/health` to confirm it's running.
 │   └── mcp.json                             # MCP server configuration (Fetch + GitHub)
 ├── src/
 │   ├── index.ts                             # Express app entry point
-│   ├── config/index.ts                      # Centralized configuration
+│   ├── config/
+│   │   ├── index.ts                         # Centralized configuration
+│   │   └── openapi.ts                       # OpenAPI 3.0 spec + shared components
 │   ├── middleware/
 │   │   ├── errorHandler.ts                  # Centralized error handling
 │   │   ├── requestLogger.ts                 # Request logging

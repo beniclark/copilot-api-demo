@@ -40,6 +40,14 @@ When asked to review API code, check the following:
 - [ ] Named exports are used (no default exports)
 - [ ] Test coverage exists for happy path, validation errors, and upstream failures
 
+### OpenAPI Documentation
+- [ ] Every route handler or controller method has an `@openapi` JSDoc block
+- [ ] All path, query, and body parameters are documented
+- [ ] All response codes are covered (`200`, `400`, `429`, `500` at minimum)
+- [ ] Error responses use `$ref` to shared components (`BadRequest`, `TooManyRequests`, `InternalServerError`) — not inlined
+- [ ] New response body shapes are registered in `src/config/openapi.ts` under `components.schemas`
+- [ ] The endpoint is visible and renders correctly in Swagger UI at `/api/docs`
+
 ### Performance
 - [ ] External API responses are cached with a sensible TTL
 - [ ] No N+1 query patterns
@@ -49,7 +57,7 @@ When asked to review API code, check the following:
 
 Present findings as a prioritized list:
 1. **Critical** — Security issues, data leaks, crash vectors
-2. **High** — Architecture violations, missing validation
+2. **High** — Architecture violations, missing validation, missing `@openapi` blocks
 3. **Medium** — Missing tests, missing JSDoc, code style issues
 4. **Low** — Suggestions for improvement, nice-to-haves
 

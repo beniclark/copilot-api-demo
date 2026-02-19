@@ -39,9 +39,16 @@ For each endpoint, specify:
 - Response body schema
 - Expected status codes (success and error)
 
+#### OpenAPI Documentation
+For each endpoint, include:
+- The `@openapi` JSDoc block template with `tags`, `summary`, `parameters`, `requestBody`, and all response codes
+- Any new response schema that must be added to `src/config/openapi.ts` under `components.schemas`
+- The tag name to use (one `PascalCase` tag per resource group; see `.github/instructions/openapi.instructions.md` for the tag conventions table)
+
 #### Files to Create/Modify
 - List every file that needs to be created or changed
 - Specify which layer it belongs to (controller, service, repository, schema, types, test)
+- Always include `src/config/openapi.ts` if new response schemas are needed
 
 #### Middleware
 - Which middleware applies to each route (rate limiting, auth, validation)
@@ -56,6 +63,7 @@ For each endpoint, specify:
 
 #### Error Scenarios
 - List error cases and the expected response for each
+- Confirm each error code maps to a shared `$ref` response in the `@openapi` block (never inline error schemas)
 
 #### Test Cases
 - At least 3 test cases per endpoint (happy path, validation error, upstream failure)
