@@ -1,0 +1,33 @@
+{
+  "name": "copilot-api-demo",
+  "version": "1.0.0",
+  "description": "Demo: Leveraging GitHub Copilot for API Development",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "eslint src/",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["copilot", "api", "demo"],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "zod": "^3.23.0",
+    "date-fns": "^3.6.0",
+    "node-cache": "^5.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "eslint": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0"
+  }
+}

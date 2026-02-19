@@ -1,0 +1,37 @@
+{
+  // MCP Server Configuration for Copilot
+  // These servers give Copilot new capabilities beyond local file access.
+  //
+  // Fetch server:  Lets Copilot read any URL (API docs, OpenAPI specs, web pages)
+  // GitHub server: Lets Copilot interact with GitHub repos, issues, and PRs
+  //
+  // To use: Open Copilot Chat in Agent mode — tools are invoked automatically.
+
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "github-token",
+      "description": "GitHub Personal Access Token (for GitHub MCP server)",
+      "password": true
+    }
+  ],
+
+  "servers": {
+    // Fetch MCP Server — gives Copilot the ability to read web URLs
+    // Use case: Fetching API documentation, OpenAPI specs, external resources
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
+    },
+
+    // GitHub MCP Server — gives Copilot access to GitHub repos, issues, PRs
+    // Use case: Creating issues from plans, reading repo contents, managing PRs
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github-token}"
+      }
+    }
+  }
+}
