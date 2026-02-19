@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { petsRouter } from './pets.routes';
 
 /**
  * Root route index.
@@ -29,8 +30,7 @@ router.get('/health', (_req: Request, res: Response) => {
 // Example:
 //   import { indicatorsRouter } from './indicators.routes';
 //   router.use('/indicators', indicatorsRouter);
-//
-//   import { petsRouter } from './pets.routes';
-//   router.use('/pets', petsRouter);
+
+router.use('/pets', petsRouter);
 
 export { router as apiRouter };
