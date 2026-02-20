@@ -1,12 +1,17 @@
 ---
 description: "Implement APIs following team standards — creates and modifies files"
 tools:
-  - editFiles
-  - terminal
+  - createFile
+  - runInTerminal
   - codebase
   - search
   - problems
   - fetch
+handoffs:
+  - label: "Review the implementation"
+    agent: api-reviewer
+    prompt: "Review all the code that was just implemented. Check for security, performance, architecture compliance, and OpenAPI documentation completeness using your full review checklist."
+    send: true
 ---
 
 # API Builder Agent
