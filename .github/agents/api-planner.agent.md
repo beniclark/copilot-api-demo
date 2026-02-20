@@ -8,7 +8,8 @@ tools:
 handoffs:
   - label: "Implement this plan"
     agent: api-builder
-    send: false
+    prompt: "Implement the API plan from the conversation above. Follow the plan step-by-step, creating all files and making all modifications as specified."
+    send: true
 ---
 
 # API Planning Agent

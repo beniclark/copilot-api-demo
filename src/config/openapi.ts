@@ -30,6 +30,38 @@ const options: swaggerJsdoc.Options = {
             details: {},
           },
         },
+        Indicator: {
+          type: 'object',
+          properties: {
+            country: { type: 'string', example: 'Mexico' },
+            category: { type: 'string', example: 'GDP' },
+            title: { type: 'string', example: 'Mexico GDP' },
+            latestValueDate: { type: 'string', format: 'date-time', example: '2022-12-31T00:00:00' },
+            latestValue: { type: 'number', example: 1414.19 },
+            source: { type: 'string', example: 'World Bank' },
+            sourceUrl: { type: 'string', example: 'https://www.worldbank.org/' },
+            unit: { type: 'string', example: 'USD Billion' },
+            url: { type: 'string', example: '/mexico/gdp' },
+            categoryGroup: { type: 'string', example: 'GDP' },
+            adjustment: { type: 'string', example: 'Current USD' },
+            frequency: { type: 'string', example: 'Yearly' },
+            historicalDataSymbol: { type: 'string', example: 'WGDPMEXI' },
+            createDate: { type: 'string', format: 'date-time' },
+            firstValueDate: { type: 'string', format: 'date-time' },
+            previousValue: { type: 'number', example: 1272.84 },
+            previousValueDate: { type: 'string', format: 'date-time' },
+          },
+        },
+        IndicatorsResponse: {
+          type: 'object',
+          required: ['data'],
+          properties: {
+            data: {
+              type: 'array',
+              items: { $ref: '#/components/schemas/Indicator' },
+            },
+          },
+        },
       },
       responses: {
         BadRequest: {

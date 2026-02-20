@@ -7,7 +7,8 @@ tools:
 handoffs:
   - label: "Fix these issues"
     agent: api-builder
-    send: false
+    prompt: "Fix all the issues identified in the review above. Address them in priority order: critical first, then high, medium, and low."
+    send: true
 ---
 
 # API Reviewer Agent

@@ -1,12 +1,9 @@
 import { Router, Request, Response } from 'express';
+import { indicatorsRouter } from './indicators.routes';
 
 /**
  * Root route index.
  * Registers all resource routers and provides a health check endpoint.
- *
- * As you add new resources during the demo, register them here:
- *   import { indicatorsRouter } from './indicators.routes';
- *   router.use('/indicators', indicatorsRouter);
  */
 const router = Router();
 
@@ -52,14 +49,7 @@ router.get('/health', (_req: Request, res: Response) => {
   });
 });
 
-// ──────────────────────────────────────────────
-// Register resource routes below during the demo
-// ──────────────────────────────────────────────
-// Example:
-//   import { indicatorsRouter } from './indicators.routes';
-//   router.use('/indicators', indicatorsRouter);
-//
-//   import { petsRouter } from './pets.routes';
-//   router.use('/pets', petsRouter);
+// ── Resource Routes ──────────────────────────────────────────────
+router.use('/indicators', indicatorsRouter);
 
 export { router as apiRouter };
