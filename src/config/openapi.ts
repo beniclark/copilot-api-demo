@@ -30,6 +30,101 @@ const options: swaggerJsdoc.Options = {
             details: {},
           },
         },
+        Category: {
+          type: 'object',
+          properties: {
+            id: { type: 'integer', format: 'int64', example: 1 },
+            name: { type: 'string', example: 'Dogs' },
+          },
+        },
+        Tag: {
+          type: 'object',
+          properties: {
+            id: { type: 'integer', format: 'int64', example: 0 },
+            name: { type: 'string', example: 'friendly' },
+          },
+        },
+        Pet: {
+          type: 'object',
+          required: ['id', 'name', 'photoUrls'],
+          properties: {
+            id: { type: 'integer', format: 'int64', example: 10 },
+            name: { type: 'string', example: 'doggie' },
+            category: { $ref: '#/components/schemas/Category' },
+            photoUrls: {
+              type: 'array',
+              items: { type: 'string', example: 'https://example.com/photo.jpg' },
+            },
+            tags: {
+              type: 'array',
+              items: { $ref: '#/components/schemas/Tag' },
+            },
+            status: {
+              type: 'string',
+              description: 'Pet status in the store',
+              enum: ['available', 'pending', 'sold'],
+              example: 'available',
+            },
+          },
+        },
+        CreatePetBody: {
+          type: 'object',
+          required: ['name', 'photoUrls'],
+          properties: {
+            name: { type: 'string', example: 'doggie' },
+            photoUrls: {
+              type: 'array',
+              items: { type: 'string', example: 'https://example.com/photo.jpg' },
+            },
+            category: { $ref: '#/components/schemas/Category' },
+            tags: {
+              type: 'array',
+              items: { $ref: '#/components/schemas/Tag' },
+            },
+            status: {
+              type: 'string',
+              enum: ['available', 'pending', 'sold'],
+              example: 'available',
+            },
+          },
+        },
+        UpdatePetBody: {
+          type: 'object',
+          required: ['id', 'name', 'photoUrls'],
+          properties: {
+            id: { type: 'integer', format: 'int64', example: 10 },
+            name: { type: 'string', example: 'doggie' },
+            photoUrls: {
+              type: 'array',
+              items: { type: 'string', example: 'https://example.com/photo.jpg' },
+            },
+            category: { $ref: '#/components/schemas/Category' },
+            tags: {
+              type: 'array',
+              items: { $ref: '#/components/schemas/Tag' },
+            },
+            status: {
+              type: 'string',
+              enum: ['available', 'pending', 'sold'],
+              example: 'available',
+            },
+          },
+        },
+        PetResponse: {
+          type: 'object',
+          properties: {
+            data: { $ref: '#/components/schemas/Pet' },
+          },
+        },
+        PetsResponse: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'array',
+              items: { $ref: '#/components/schemas/Pet' },
+            },
+          },
+        },
       },
       responses: {
         BadRequest: {

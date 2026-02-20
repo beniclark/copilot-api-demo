@@ -52,14 +52,8 @@ router.get('/health', (_req: Request, res: Response) => {
   });
 });
 
-// ──────────────────────────────────────────────
-// Register resource routes below during the demo
-// ──────────────────────────────────────────────
-// Example:
-//   import { indicatorsRouter } from './indicators.routes';
-//   router.use('/indicators', indicatorsRouter);
-//
-//   import { petsRouter } from './pets.routes';
-//   router.use('/pets', petsRouter);
+// ── Resource routes ─────────────────────────────────────────────
+import { petsRouter } from './pets.routes';
+router.use('/pets', petsRouter);
 
 export { router as apiRouter };
