@@ -49,6 +49,7 @@ export const indicatorsRepository = {
 
 /**
  * Shared fetch helper that handles HTTP errors and network failures.
+ * Error messages are kept generic for client safety; details are logged server-side.
  */
 async function fetchIndicators(url: URL): Promise<TradingEconomicsIndicator[]> {
   let response: Response;
@@ -56,23 +57,23 @@ async function fetchIndicators(url: URL): Promise<TradingEconomicsIndicator[]> {
   try {
     response = await fetch(url.toString());
   } catch (error: unknown) {
-    throw new AppError(
-      `Failed to fetch indicators: ${error instanceof Error ? error.message : 'Network error'}`,
-      500
-    );
+    const detail = error instanceof Error ? error.message : 'Unknown network error';
+    console.error('[indicators.repository] Network failure:', detail);
+    throw new AppError('Unable to retrieve indicator data', 500);
   }
 
   if (!response.ok) {
-    throw new AppError(
-      `Upstream API error: ${response.status} ${response.statusText}`,
-      502
+    console.error(
+      `[indicators.repository] Upstream responded ${response.status} ${response.statusText}`
     );
+    throw new AppError('Unable to retrieve indicator data', 502);
   }
 
   const data: unknown = await response.json();
 
   if (!Array.isArray(data)) {
-    throw new AppError('Unexpected response format from Trading Economics API', 502);
+    console.error('[indicators.repository] Unexpected response format:', typeof data);
+    throw new AppError('Unable to retrieve indicator data', 502);
   }
 
   return data as TradingEconomicsIndicator[];

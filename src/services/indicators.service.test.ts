@@ -29,6 +29,7 @@ const mockRawIndicator: TradingEconomicsIndicator = {
 describe('indicatorsService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    indicatorsService.clearCache();
   });
 
   describe('getByCountry', () => {
@@ -87,7 +88,7 @@ describe('indicatorsService', () => {
 
     it('propagates upstream errors as AppError', async () => {
       vi.mocked(indicatorsRepository.fetchByCountry).mockRejectedValue(
-        new AppError('Upstream API error: 500 Internal Server Error', 502)
+        new AppError('Unable to retrieve indicator data', 502)
       );
 
       await expect(indicatorsService.getByCountry('errorland')).rejects.toThrow(AppError);
@@ -115,4 +116,3 @@ describe('indicatorsService', () => {
     });
   });
 });
-

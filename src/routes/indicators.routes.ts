@@ -1,6 +1,8 @@
 import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 import * as indicatorsController from '../controllers/indicators.controller';
 import { validate } from '../middleware/validate';
+import { config } from '../config';
 import {
   GetIndicatorsByCountryParamsSchema,
   GetIndicatorsByCountryQuerySchema,
@@ -8,6 +10,22 @@ import {
 } from '../schemas/indicators.schema';
 
 const router = Router();
+
+/**
+ * Rate limiter scoped to the indicators route group.
+ * Defaults: 100 requests per 15-minute window.
+ */
+const indicatorsLimiter = rateLimit({
+  windowMs: config.rateLimit.windowMs,
+  max: config.rateLimit.max,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: 'Too many requests, please try again later.',
+    code: 429,
+  },
+});
+router.use(indicatorsLimiter);
 
 /**
  * Get all economic indicators for a country.

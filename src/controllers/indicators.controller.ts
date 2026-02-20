@@ -16,7 +16,7 @@ export const getByCountry = async (
 ): Promise<void> => {
   try {
     const { country } = req.params;
-    const { group } = req.query as { group?: string };
+    const group = req.query.group as string | undefined;
     const data = await indicatorsService.getByCountry(country, group);
     res.json({ data });
   } catch (error) {

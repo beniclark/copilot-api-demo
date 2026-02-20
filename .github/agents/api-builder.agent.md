@@ -1,7 +1,7 @@
 ---
 description: "Implement APIs following team standards — creates and modifies files"
 tools:
-  - createOrEditFiles
+  - createFile
   - runInTerminal
   - codebase
   - search

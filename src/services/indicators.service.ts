@@ -11,13 +11,14 @@ const cache = new NodeCache({ stdTTL: config.cacheTtl });
 
 /**
  * Maps a raw Trading Economics indicator (PascalCase) to our internal shape (camelCase).
+ * Handles null/undefined date fields defensively by defaulting to empty string.
  */
 function mapIndicator(raw: TradingEconomicsIndicator): Indicator {
   return {
     country: raw.Country,
     category: raw.Category,
     title: raw.Title,
-    latestValueDate: raw.LatestValueDate,
+    latestValueDate: raw.LatestValueDate ?? '',
     latestValue: raw.LatestValue,
     source: raw.Source,
     sourceUrl: raw.SourceURL,
@@ -27,10 +28,10 @@ function mapIndicator(raw: TradingEconomicsIndicator): Indicator {
     adjustment: raw.Adjustment,
     frequency: raw.Frequency,
     historicalDataSymbol: raw.HistoricalDataSymbol,
-    createDate: raw.CreateDate,
-    firstValueDate: raw.FirstValueDate,
+    createDate: raw.CreateDate ?? '',
+    firstValueDate: raw.FirstValueDate ?? '',
     previousValue: raw.PreviousValue,
-    previousValueDate: raw.PreviousValueDate,
+    previousValueDate: raw.PreviousValueDate ?? '',
   };
 }
 
@@ -47,8 +48,8 @@ export const indicatorsService = {
    */
   async getByCountry(country: string, group?: string): Promise<Indicator[]> {
     const cacheKey = group
-      ? `indicators:${country}:group:${group}`
-      : `indicators:${country}`;
+      ? `country:${country}:group:${group}`
+      : `country:${country}`;
 
     const cached = cache.get<Indicator[]>(cacheKey);
     if (cached) {
@@ -77,7 +78,7 @@ export const indicatorsService = {
     country: string,
     indicator: string
   ): Promise<Indicator[]> {
-    const cacheKey = `indicators:${country}:${indicator}`;
+    const cacheKey = `country-indicator:${country}:${indicator}`;
 
     const cached = cache.get<Indicator[]>(cacheKey);
     if (cached) {
@@ -99,5 +100,13 @@ export const indicatorsService = {
     const indicators = raw.map(mapIndicator);
     cache.set(cacheKey, indicators);
     return indicators;
+  },
+
+  /**
+   * Flush the in-memory indicator cache.
+   * Primarily used in tests to ensure isolation between test cases.
+   */
+  clearCache(): void {
+    cache.flushAll();
   },
 };

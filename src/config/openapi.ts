@@ -32,6 +32,7 @@ const options: swaggerJsdoc.Options = {
         },
         Indicator: {
           type: 'object',
+          required: ['country', 'category', 'title', 'latestValue', 'latestValueDate'],
           properties: {
             country: { type: 'string', example: 'Mexico' },
             category: { type: 'string', example: 'GDP' },
